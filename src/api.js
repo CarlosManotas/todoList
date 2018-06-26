@@ -10,7 +10,7 @@ export const addItem = item => {
 }
 export const removeItem = item => {
   const newList = initData()
-  const deletedValue = [...newList].filter(itemList => itemList !== item)
+  const deletedValue = newList.filter(itemList => itemList !== item)
   window.localStorage.setItem('listOfItems', JSON.stringify(deletedValue))
   return new Promise(resolve => setTimeout(() => resolve(deletedValue), 1000))
 }
