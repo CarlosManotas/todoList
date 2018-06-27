@@ -91,23 +91,33 @@ const Content = styled.div`
     }
   }
 `
-export default ({toggleShow, handleClick, handleChange, value, loading, show}) => (
-  <Modal show={show}>
-    <Content>
-      <span onClick={toggleShow} className='close'>x</span>
-      <form onSubmit={handleClick}>
-        <input type='text' onChange={handleChange} value={value} placeholder='Add new item' />
-        <div className='wrapper-buttons'>
-          <button onClick={handleClick}>Save</button>
-          <button
-            onClick={e => {
-              e.preventDefault()
-              toggleShow()
-            }}
-          >Cancel</button>
-        </div>
-        {loading && <LoadComponent />}
-      </form>
-    </Content>
-  </Modal>
-)
+export default class ModalWrapper extends React.Component {
+  componentDidUpdate (prevProps) {
+    if (!prevProps.show && this.props.show) {
+      setTimeout(() => this.inputOnFocus.focus(), 400)
+    }
+  }
+  render () {
+    const {toggleShow, handleClick, handleChange, value, loading, show} = this.props
+    return (
+      <Modal show={show}>
+        <Content>
+          <span onClick={toggleShow} className='close'>x</span>
+          <form onSubmit={handleClick}>
+            <input ref={input => { this.inputOnFocus = input }} type='text' onChange={handleChange} value={value} placeholder='Add new item' />
+            <div className='wrapper-buttons'>
+              <button onClick={handleClick}>Save</button>
+              <button
+                onClick={e => {
+                  e.preventDefault()
+                  toggleShow()
+                }}
+              >Cancel</button>
+            </div>
+            {loading && <LoadComponent />}
+          </form>
+        </Content>
+      </Modal>
+    )
+  }
+}
