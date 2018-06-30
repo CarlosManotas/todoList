@@ -66,10 +66,10 @@ class App extends Component {
     if (value === '') return false
     this.setState({ loading: true })
     if (id) {
-      return updateItem({name:value,id})
+      return updateItem({name: value, id})
         .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false, id: null }))
     }
-    addItem({name:value, id: new Date()})
+    addItem({name: value, id: new Date()})
       .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false, id: null }))
   }
   handleUpdate (list) {

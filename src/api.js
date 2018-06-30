@@ -17,7 +17,7 @@ export const removeItem = id => {
 export const updateItem = list => {
   const newList = initData()
   const updateList = newList.map(itemList => {
-    if (itemList.id === list.id){
+    if (itemList.id === list.id) {
       return ({...itemList, name: list.name})
     }
     return itemList

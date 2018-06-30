@@ -7,7 +7,6 @@ const UlWrapper = styled.ul`
   margin: auto;
   list-style: none;
   background: #ddd;
-  border-radius: 8px;
   padding-top: 40px;
   margin-top: -30px;
   li{
@@ -18,6 +17,9 @@ const UlWrapper = styled.ul`
     display: flex;
     justify-content: center;
     align-items: center;
+    &:last-child {
+      border-bottom: none;
+    }
     p{
       margin: 0;
       margin-left: auto;
@@ -32,6 +34,9 @@ const UlWrapper = styled.ul`
       }
     }
   }
+  @media (min-width: 996px) {
+    border-radius: 8px;
+  }
 `
 export default ({ listOfItems, handleDeleted, handleUpdate }) => listOfItems.length > 0
   ? (
@@ -41,8 +46,7 @@ export default ({ listOfItems, handleDeleted, handleUpdate }) => listOfItems.len
           <p>{list.name}</p>
           <a><span onClick={() => handleUpdate(list)}>Edit/ </span><span onClick={() => handleDeleted(list.id)}> Deleted</span></a>
         </li>
-        ))
-      }
+      ))}
     </UlWrapper>
   )
   : <UlWrapper><li>No found item</li></UlWrapper>
