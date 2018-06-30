@@ -8,9 +8,20 @@ export const addItem = item => {
   window.localStorage.setItem('listOfItems', JSON.stringify([...newList, item]))
   return new Promise(resolve => setTimeout(() => resolve([...newList, item]), 1000))
 }
-export const removeItem = item => {
+export const removeItem = id => {
   const newList = initData()
-  const deletedValue = newList.filter(itemList => itemList !== item)
+  const deletedValue = newList.filter(itemList => itemList.id !== id)
   window.localStorage.setItem('listOfItems', JSON.stringify(deletedValue))
   return new Promise(resolve => setTimeout(() => resolve(deletedValue), 1000))
+}
+export const updateItem = list => {
+  const newList = initData()
+  const updateList = newList.map(itemList => {
+    if (itemList.id === list.id){
+      return ({...itemList, name: list.name})
+    }
+    return itemList
+  })
+  window.localStorage.setItem('listOfItems', JSON.stringify(updateList))
+  return new Promise(resolve => setTimeout(() => resolve(updateList), 1000))
 }

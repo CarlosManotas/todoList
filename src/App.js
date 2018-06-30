@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Modal from './components/modal'
 import LoadComponent, { Loading } from './components/loading'
 import List from './components/list'
-import { getItems, addItem, removeItem } from './api'
+import { getItems, addItem, removeItem, updateItem } from './api'
 const Button = styled.button`
   background-color: #f96332;
   height: 60px;
@@ -39,12 +39,14 @@ class App extends Component {
       show: false,
       value: '',
       listOfItems: [],
-      loading: false
+      loading: false,
+      id: null
     }
     this.toggleShow = this.toggleShow.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleDeleted = this.handleDeleted.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
   }
   componentDidMount () {
     getItems()
@@ -60,15 +62,22 @@ class App extends Component {
   }
   handleClick (e) {
     e.preventDefault()
-    const { value } = this.state
+    const { value, id } = this.state
     if (value === '') return false
     this.setState({ loading: true })
-    addItem(value)
-      .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false }))
+    if (id) {
+      return updateItem({name:value,id})
+        .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false, id: null }))
+    }
+    addItem({name:value, id: new Date()})
+      .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false, id: null }))
   }
-  handleDeleted (list) {
+  handleUpdate (list) {
+    this.setState({ show: true, value: list.name, id: list.id })
+  }
+  handleDeleted (id) {
     this.setState({ loading: true })
-    removeItem(list)
+    removeItem(id)
       .then(listOfItems => this.setState({ value: '', listOfItems, show: false, loading: false }))
   }
   render () {
@@ -88,7 +97,7 @@ class App extends Component {
           handleClick={this.handleClick}
           loading={loading}
         />
-        <List listOfItems={listOfItems} handleDeleted={this.handleDeleted} />
+        <List listOfItems={listOfItems} handleDeleted={this.handleDeleted} handleUpdate={this.handleUpdate} />
       </div>
     )
   }

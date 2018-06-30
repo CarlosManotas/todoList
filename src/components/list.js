@@ -26,16 +26,23 @@ const UlWrapper = styled.ul`
       display: inline-block;
       margin-left: auto;
       font-size: .8em;
+      span{
+        cursor: pointer;
+        text-decoration: underline;
+      }
     }
   }
 `
-export default ({ listOfItems, handleDeleted }) => listOfItems.length > 0
+export default ({ listOfItems, handleDeleted, handleUpdate }) => listOfItems.length > 0
   ? (
     <UlWrapper>
-      {listOfItems.map((list, index) => <li key={index}><p>{list}</p> <a href='' onClick={e => {
-        e.preventDefault()
-        handleDeleted(list)
-      }}>Deleted</a></li>)}
+      {listOfItems.map(list => (
+        <li key={list.id}>
+          <p>{list.name}</p>
+          <a><span onClick={() => handleUpdate(list)}>Edit/ </span><span onClick={() => handleDeleted(list.id)}> Deleted</span></a>
+        </li>
+        ))
+      }
     </UlWrapper>
   )
   : <UlWrapper><li>No found item</li></UlWrapper>
