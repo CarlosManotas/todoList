@@ -69,7 +69,7 @@ class App extends Component {
       return updateItem({name: value, id})
         .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false, id: null }))
     }
-    addItem({name: value, id: new Date()})
+    addItem({name: value, id: Date.now()})
       .then(listOfItems => this.setState({ listOfItems, value: '', show: false, loading: false, id: null }))
   }
   handleUpdate (list) {
