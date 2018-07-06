@@ -54,7 +54,7 @@ class App extends Component {
   }
   toggleShow () {
     const { show } = this.state
-    this.setState({ show: !show, value: '' })
+    this.setState({ show: !show, value: '', id: null })
   }
   handleChange (e) {
     const value = e.target.value
